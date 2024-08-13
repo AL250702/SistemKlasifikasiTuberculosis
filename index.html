@@ -7,19 +7,32 @@
     <title>Sistem Klasifikasi Penyakit Tuberculosis</title>
 </head>
 <body>
-    <div class="container">
+    <div class="judul hide" id="judul-1">Sistem Klasifikasi Penyakit Tuerculosis</div>
+    <div class="container hide" id="content">
 
-    
-        <div class="judul">Sistem Klasifikasi Penyakit Tuerculosis</div>
-        <div id="webcam-container"></div>
-        <div class="tombol">
+        <div id="webcam-container" class="show"></div>
+        <div class="tombol show" id="start">
+            <h4>Mulai Scan Citra Xray</h4>
             <button type="button" onclick="init()">Start</button>
         </div>
 
+        <div class="tombol hide" id="stop">
+            <button type="button" onclick="stopCam()">Stop</button>
+        </div>
+        
         <div id="label-container"></div>
-    
     </div>
-    
+
+    <div class="judul show" id="judul-2">Sistem Klasifikasi Penyakit Tuerculosis</div>
+    <div class="form-login show" id="login">
+            <h4>Login</h4>
+            <input type="text" name="username" id="username" placeholder="Username">
+            <br>
+            <input type="password" name="password" id="password" placeholder="Password">
+            <br>
+            <button onclick="viewLogin()">Login</button>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script type="text/javascript">
@@ -33,6 +46,15 @@
 
         // Load the image model and setup the webcam
         async function init() {
+
+            const start = document.getElementById('start');
+            const stop = document.getElementById('stop');
+            
+            stop.classList.add('show');
+            stop.classList.remove('hide');
+            start.classList.add('hide');
+            start.classList.remove('show');
+
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
 
@@ -65,7 +87,6 @@
             await predict();
             window.requestAnimationFrame(loop);
         }
-
         // run the webcam image through the image model
         async function predict() {
             // predict can take in an image, video or canvas html element
@@ -76,7 +97,40 @@
                 labelContainer.childNodes[i].innerHTML = classPrediction;
             }
         }
-    </script>
 
+        function viewLogin(){
+            
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            const container = document.getElementById('content');
+            const formLogin = document.getElementById('login');
+            const judul_1 = document.getElementById('judul-1');
+            const judul_2 = document.getElementById('judul-2');
+
+
+            if(password == "Tbc1815*" && username == "tuberculosis"){
+                container.classList.add('show');
+                container.classList.remove('hide');
+                formLogin.classList.add('hide');
+                formLogin.classList.remove('show');
+                judul_1.classList.add('show');
+                judul_1.classList.remove('hide');
+                judul_2.classList.add('hide');
+                judul_2.classList.remove('show');
+            }else{
+                alert("Maaf Password atau Username anda Salah!");
+            }
+
+
+        }
+
+        function stopCam() {
+            location.reload();
+        } 
+
+        
+
+    </script>
 </body>
+
 </html>
